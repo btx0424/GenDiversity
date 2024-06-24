@@ -1,0 +1,9 @@
+[submodule "projects/GenSim"]
+	path = projects/GenSim
+	url = git@github.com:liruiw/GenSim.git
+[submodule "dreamerv3-torch"]
+	path = dreamerv3-torch
+	url = git@github.com:btx0424/dreamerv3-torch.git
+[submodule "diffusion_policy"]
+	path = diffusion_policy
+	url = git@github.com:btx0424/diffusion_policy.git
