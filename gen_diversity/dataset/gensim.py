@@ -60,17 +60,16 @@ class GenSimEnvironment(_Environment):
         else:
             # called by `.reset`
             # get init state
-            pass
-            # jstate = p.getJointStates(self.ur5, self.joints)
-            # currj = np.array([state[0] for state in jstate])
-            # currjdot = np.array([state[1] for state in jstate])
-            # rgb, depth, seg = self.render_camera(self.agent_cams[0])
-            # low_obs = {
-            #     "state": np.concatenate([currj, currjdot]),
-            #     "rgb": rgb,
-            #     "depth": einops.rearrange(depth, "h w -> h w 1")
-            # }
-            # self._traj["obs_low"].append(low_obs)
+            jstate = p.getJointStates(self.ur5, self.joints)
+            currj = np.array([state[0] for state in jstate])
+            currjdot = np.array([state[1] for state in jstate])
+            rgb, depth, seg = self.render_camera(self.agent_cams[0])
+            low_obs = {
+                "state": np.concatenate([currj, currjdot]),
+                "rgb": rgb,
+                "depth": einops.rearrange(depth, "h w -> h w 1")
+            }
+            self._traj["obs_low"].append(low_obs)
 
         obs, reward, done, info = super().step(action)
         self._traj["lang_goal"].append(info["lang_goal"])
@@ -105,7 +104,7 @@ class GenSimEnvironment(_Environment):
             stepj = currj + v * speed
             gains = np.ones(len(self.joints))
             
-            if self.step_counter % self.decimation == 0:
+            if (self.step_counter+1) % self.decimation == 0:
                 rgb, depth, seg = self.render_camera(self.agent_cams[0])
                 self._traj["obs_low"].append({
                     "state": np.concatenate([currj, currjdot]),
@@ -185,7 +184,6 @@ class GensimDataset(Dataset):
         self.starts = self.data["is_first"].nonzero().squeeze(-1)
         self.ends = self.data["is_terminal"].nonzero().squeeze(-1)
         assert len(self.starts) == len(self.ends)
-        
         try:
             from cliport.tasks import names
             self.task_desc = {}
