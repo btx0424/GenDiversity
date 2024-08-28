@@ -256,7 +256,7 @@ class GensimDataset(Dataset):
         print(f"Loading {total_length} low steps from {len(file_paths)} episodes")
 
         data = TensorDict({
-            "image": MemoryMappedTensor.empty(total_length, 3, *GensimDataset.image_size),
+            "image": MemoryMappedTensor.empty(total_length, 4, *GensimDataset.image_size),
             "state": MemoryMappedTensor.empty(total_length, 12),
             "action": MemoryMappedTensor.empty(total_length, 6),
             "episode_id": MemoryMappedTensor.empty(total_length, dtype=torch.int),
@@ -297,7 +297,7 @@ class GensimDataset(Dataset):
         print(f"Loading {total_length} high steps from {len(file_paths)} episodes")
 
         data = TensorDict({
-            "image": MemoryMappedTensor.empty(total_length, 3, *GensimDataset.image_size),
+            "image": MemoryMappedTensor.empty(total_length, 4, *GensimDataset.image_size),
             "state": MemoryMappedTensor.empty(total_length, 12),
             "action": MemoryMappedTensor.empty(total_length, 14),
             "episode_id": MemoryMappedTensor.empty(total_length, dtype=torch.int),

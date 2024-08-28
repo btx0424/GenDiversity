@@ -91,26 +91,29 @@ def main(cfg):
         dataset.n_episodes = 0
 
     for seed in range(dataset.n_episodes, cfg["n"]):
-        logging.info(f"Collecting episode {dataset.n_episodes}:")
+        logging.info(f"Collecting episode {dataset.n_episodes} with seed {seed}:")
         env.set_task(task)
         obs, info = env.reset(seed)
-        
-        total_reward = 0
-        for _ in range(task.max_steps):
-            act = agent.act(obs, info)
-            assert act is not None
-            lang_goal = info['lang_goal']
-            obs, reward, done, info = env.step(act)
-            total_reward += reward
-            print(f'Total Reward: {total_reward:.3f} | Done: {done} | Goal: {lang_goal}')
-            if done:
-                break
-            
-            imageio.imsave(f"{_:03}.jpg", obs["color"][0])
-        episode_data, ims = env.get_episode_data(rgb_array=True)
-        gif_path = os.path.join(dataset_path, f"episode_{dataset.n_episodes:03}.gif")
-        imageio.mimsave(gif_path, ims, format="gif")
-        dataset.add_episode(episode_data)
+        try:
+            total_reward = 0
+            for _ in range(task.max_steps):
+                act = agent.act(obs, info)
+                assert act is not None
+                lang_goal = info['lang_goal']
+                obs, reward, done, info = env.step(act)
+                total_reward += reward
+                print(f'Total Reward: {total_reward:.3f} | Done: {done} | Goal: {lang_goal}')
+                if done:
+                    break
+                
+                imageio.imsave(f"{_:03}.jpg", obs["color"][0])
+            episode_data, ims = env.get_episode_data(rgb_array=True)
+            gif_path = os.path.join(dataset_path, f"episode_{dataset.n_episodes:03}.gif")
+            imageio.mimsave(gif_path, ims, format="gif")
+            dataset.add_episode(episode_data)
+        except Exception as e:
+            logging.error(f"Error: {e}")
+            continue
     
 
 if __name__ == '__main__':
