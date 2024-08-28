@@ -37,6 +37,8 @@ def main(cfg):
 
     agent = task.oracle(env)
     dataset_path = os.path.join(GENSIM_ROOT, "data", cfg["mode"], cfg["task"])
+    print(f"Dataset Path: {dataset_path}")
+    
     os.makedirs(dataset_path, exist_ok=True)
     msg = (
         f"Collecting data for task {cfg['task']}, mode {cfg['mode']}"
@@ -96,6 +98,7 @@ def main(cfg):
         total_reward = 0
         for _ in range(task.max_steps):
             act = agent.act(obs, info)
+            assert act is not None
             lang_goal = info['lang_goal']
             obs, reward, done, info = env.step(act)
             total_reward += reward

@@ -57,19 +57,19 @@ class GenSimEnvironment(_Environment):
             }
             self._traj["action_high"].append(action_high)
             self._traj["high_step"].append(len(self._traj["action_low"]))
-        else:
-            # called by `.reset`
-            # get init state
-            jstate = p.getJointStates(self.ur5, self.joints)
-            currj = np.array([state[0] for state in jstate])
-            currjdot = np.array([state[1] for state in jstate])
-            rgb, depth, seg = self.render_camera(self.agent_cams[0])
-            low_obs = {
-                "state": np.concatenate([currj, currjdot]),
-                "rgb": rgb,
-                "depth": einops.rearrange(depth, "h w -> h w 1")
-            }
-            self._traj["obs_low"].append(low_obs)
+        # else:
+        #     # called by `.reset`
+        #     # get init state
+        #     jstate = p.getJointStates(self.ur5, self.joints)
+        #     currj = np.array([state[0] for state in jstate])
+        #     currjdot = np.array([state[1] for state in jstate])
+        #     rgb, depth, seg = self.render_camera(self.agent_cams[0])
+        #     low_obs = {
+        #         "state": np.concatenate([currj, currjdot]),
+        #         "rgb": rgb,
+        #         "depth": einops.rearrange(depth, "h w -> h w 1")
+        #     }
+        #     self._traj["obs_low"].append(low_obs)
 
         obs, reward, done, info = super().step(action)
         self._traj["lang_goal"].append(info["lang_goal"])
@@ -104,7 +104,7 @@ class GenSimEnvironment(_Environment):
             stepj = currj + v * speed
             gains = np.ones(len(self.joints))
             
-            if (self.step_counter+1) % self.decimation == 0:
+            if self.step_counter % self.decimation == 0:
                 rgb, depth, seg = self.render_camera(self.agent_cams[0])
                 self._traj["obs_low"].append({
                     "state": np.concatenate([currj, currjdot]),
@@ -205,10 +205,21 @@ class GensimDataset(Dataset):
             return data
 
     @classmethod
-    def make(cls, root_path, seq_length=20, tasks: list[str]=None, high_level: bool=False):
-        
+    def make(
+        cls, 
+        root_path, 
+        seq_length=20, 
+        tasks: list[str]=None, 
+        high_level: bool=False,
+        max_episodes: int=None,
+    ):
+
         if tasks is None:
             tasks = os.listdir(root_path)
+        if "memmaped" in tasks:
+            tasks.remove("memmaped")
+        if "memmaped_low" in tasks:
+            tasks.remove("memmaped_low")
 
         file_paths = []
         episode_lengths_high = []
@@ -219,6 +230,8 @@ class GensimDataset(Dataset):
                 filename for filename in os.listdir(task_path) 
                 if (filename.startswith("episode") and filename.endswith(".pt"))
             ])
+            if max_episodes is not None:
+                file_names = file_names[:max_episodes]
 
             for file_name in file_names:
                 file_paths.append(os.path.join(task_path, file_name))
@@ -232,16 +245,52 @@ class GensimDataset(Dataset):
         total_length_low = sum(episode_lengths_low)
         
         if high_level:
-            data = cls._make_high(file_paths, total_length_high, memmap_path=os.path.join(root_path, "memmaped_high"))
+            data = cls._make_high(file_paths, total_length_high, memmap_path=os.path.join(root_path, f"memmaped_high-{max_episodes}"))
         else:
-            data = cls._make_low(file_paths, total_length_low, memmap_path=os.path.join(root_path, "memmaped_low"))
+            data = cls._make_low(file_paths, total_length_low, memmap_path=os.path.join(root_path, f"memmaped_low-{max_episodes}"))
 
         return cls(data, seq_length, high_level)
     
     @staticmethod
-    def _make_low(file_paths, total_length: int):
+    def _make_low(file_paths, total_length: int, memmap_path):
+        print(f"Loading {total_length} low steps from {len(file_paths)} episodes")
 
-        return
+        data = TensorDict({
+            "image": MemoryMappedTensor.empty(total_length, 3, *GensimDataset.image_size),
+            "state": MemoryMappedTensor.empty(total_length, 12),
+            "action": MemoryMappedTensor.empty(total_length, 6),
+            "episode_id": MemoryMappedTensor.empty(total_length, dtype=torch.int),
+            "is_first": MemoryMappedTensor.empty(total_length, dtype=torch.bool),
+            "is_terminal": MemoryMappedTensor.empty(total_length, dtype=torch.bool),
+        }, [total_length])
+
+        data.memmap_(memmap_path)
+
+        cursor = 0
+        for i, file_path in tqdm(enumerate(file_paths)):
+            episode_data = torch.load(file_path)
+            image_rgb = torch.as_tensor(episode_data["obs_low"]["rgb"])
+            image_depth = torch.as_tensor(episode_data["obs_low"]["depth"])
+            image = torch.cat([image_rgb, image_depth], dim=-1)
+            state = torch.as_tensor(episode_data["obs_low"]["state"])
+            action = torch.as_tensor(episode_data["action_low"])
+            episode_len = len(image)
+            episode_data = TensorDict({
+                "image": image.permute(0, 3, 1, 2),
+                "state": state,
+                "action": action,
+                "episode_id": torch.full((episode_len,), i, dtype=torch.int64),
+                "is_first": torch.zeros(episode_len, dtype=torch.bool),
+                "is_terminal": torch.zeros(episode_len, dtype=torch.bool),
+            }, [episode_len])
+            episode_data["is_first"][0] = True
+            episode_data["is_terminal"][-1] = True
+
+            data[cursor: cursor+episode_len] = episode_data
+            del episode_data
+            cursor += episode_len
+
+        return data
     
     @staticmethod
     def _make_high(file_paths, total_length: int, memmap_path):
