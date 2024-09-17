@@ -81,6 +81,13 @@ class GenSimEnvironment(_Environment):
             "depth_1": obs["depth"][1],
             "depth_2": obs["depth"][2],
         })
+        
+        # joint state
+        jstate = p.getJointStates(self.ur5, self.joints)
+        currj = np.array([state[0] for state in jstate])
+        currjdot = np.array([state[1] for state in jstate])
+
+        self.jstate = np.concatenate([currj, currjdot])
         return obs, reward, done, info
     
     def movej(self, targj, speed=0.01, timeout=150):
@@ -297,7 +304,7 @@ class GensimDataset(Dataset):
         print(f"Loading {total_length} high steps from {len(file_paths)} episodes")
 
         data = TensorDict({
-            "image": MemoryMappedTensor.empty(total_length, 4, *GensimDataset.image_size),
+            "image": MemoryMappedTensor.empty(total_length, 3, *GensimDataset.image_size),
             "state": MemoryMappedTensor.empty(total_length, 12),
             "action": MemoryMappedTensor.empty(total_length, 14),
             "episode_id": MemoryMappedTensor.empty(total_length, dtype=torch.int),
@@ -340,11 +347,11 @@ class GensimDataset(Dataset):
 
 
     @classmethod
-    def load(cls, root_path, seq_length=20, high_level: bool=False):
+    def load(cls, root_path, seq_length=20, high_level: bool=False, max_episodes: int=None):
         if high_level:
-            data = TensorDict.load_memmap(os.path.join(root_path, "memmaped_high"))
+            data = TensorDict.load_memmap(os.path.join(root_path, f"memmaped_high-{max_episodes}"))
         else:
-            data = TensorDict.load_memmap(os.path.join(root_path, "memmaped_low"))
+            data = TensorDict.load_memmap(os.path.join(root_path, f"memmaped_low-{max_episodes}"))
         return cls(data, seq_length, high_level)
 
 if __name__ == "__main__":
