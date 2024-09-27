@@ -1,0 +1,216 @@
+build:
+- "Task: build-bridge \n Description: Construct a bridge using two yellow blocks and\
+  \ three blue blocks.\n    Firstly, place the two yellow blocks on each of the two\
+  \ bases parallel to each other with a fair amount of space in between.\n    Then,\
+  \ place the blue block horizontally on top of the yellow blocks."
+- "Task: build-car \n Description: Construct a simple car structure using blocks and\
+  \ cylinders."
+- "Task: build-cylinder-structure \n Description: Construct a structure using four\
+  \ colored cylinders (red, blue, green, yellow) on a square base."
+- "Task: build-house \n Description: Construct a house structure using blocks and\
+  \ a cylinder."
+- "Task: build-two-circles \n Description: Construct two distinct circles on the tabletop\
+  \ using 10 red and 10 blue blocks.\n    Each circle should consist of blocks of\
+  \ the same color, with the blue circle larger and surrounding the red circle."
+- "Task: build-wheel \n Description: Construct a wheel using blocks and a sphere."
+- "Task: construct-corner-building \n Description: Construct a building-like structure\
+  \ by placing four blocks of different colors \n    at each corner of a square and\
+  \ one block at the center. \n    Starting from the center, each block should be\
+  \ placed in a clockwise direction \n    in the following order: red, green, blue,\
+  \ orange, and yellow."
+- "Task: build-bridge \n Description: Construct a bridge using two yellow blocks and\
+  \ three blue blocks.\n    Firstly, place the two yellow blocks on each of the two\
+  \ bases parallel to each other with a fair amount of space in between.\n    Then,\
+  \ place the blue block horizontally on top of the yellow blocks."
+- "Task: build-car \n Description: Construct a simple car structure using blocks and\
+  \ cylinders."
+- "Task: build-cylinder-structure \n Description: Construct a structure using four\
+  \ colored cylinders (red, blue, green, yellow) on a square base."
+- "Task: build-house \n Description: Construct a house structure using blocks and\
+  \ a cylinder."
+- "Task: build-two-circles \n Description: Construct two distinct circles on the tabletop\
+  \ using 10 red and 10 blue blocks.\n    Each circle should consist of blocks of\
+  \ the same color, with the blue circle larger and surrounding the red circle."
+- "Task: build-wheel \n Description: Construct a wheel using blocks and a sphere."
+- "Task: construct-corner-building \n Description: Construct a building-like structure\
+  \ by placing four blocks of different colors \n    at each corner of a square and\
+  \ one block at the center. \n    Starting from the center, each block should be\
+  \ placed in a clockwise direction \n    in the following order: red, green, blue,\
+  \ orange, and yellow."
+pile:
+- "Task: mix-piles \n Description: Create two separate piles of ten blocks with different\
+  \ colors. Then, push them into a zone."
+- "Task: move-piles-along-line \n Description: Move three piles of small blocks, each\
+  \ pile a different color (red, blue, green), \n    along three matching colored\
+  \ lines to three separate zones of the same color using a spatula."
+- "Task: push-piles-into-letter \n Description: Push piles of small objects into a\
+  \ target goal zone shaped in some letters."
+- "Task: sweeping-piles \n Description: Push piles of small objects into a target\
+  \ goal zone marked on the tabletop."
+- "Task: separating-piles \n Description: None"
+- "Task: separating-piles-seen-colors \n Description: None"
+- "Task: separating-piles-unseen-colors \n Description: None"
+- "Task: separating-piles-full \n Description: None"
+- "Task: mix-piles \n Description: Create two separate piles of ten blocks with different\
+  \ colors. Then, push them into a zone."
+- "Task: move-piles-along-line \n Description: Move three piles of small blocks, each\
+  \ pile a different color (red, blue, green), \n    along three matching colored\
+  \ lines to three separate zones of the same color using a spatula."
+- "Task: push-piles-into-letter \n Description: Push piles of small objects into a\
+  \ target goal zone shaped in some letters."
+place:
+- "Task: color-coordinated-ball-placement \n Description: Pick up each ball and place\
+  \ it inside the box of the same color, while avoiding collision with other objects."
+- "Task: color-coordinated-block-in-container-placement \n Description: Pick up each\
+  \ block and accurately place it inside the container of the same color in a specific\
+  \ sequence - red first, then blue, followed by green, and finally yellow."
+- "Task: color-coordinated-corner-placement \n Description: Pick up each cylinder\
+  \ and place it into the corner of the same color in a specific sequence."
+- "Task: color-sequenced-sphere-placement \n Description: Pick up spheres of different\
+  \ colors and place them in the center of the square of the same color in a specific\
+  \ sequence."
+- "Task: cylinder-balancing-and-placement \n Description: Pick up each cylinder and\
+  \ balance it on its end at the center of the corresponding colored zone."
+- "Task: cylinder-line-placement \n Description: Place cylinders of different colors\
+  \ on a line in a specific color order."
+- "Task: place-ball-in-elevated-bowl \n Description: Pick up a red ball and carefully\
+  \ place it into a bowl, which is positioned on a raised platform that is surrounded\
+  \ by small blocks."
+- "Task: place-blue-on-line-ends \n Description: Pick up each blue box and accurately\
+  \ place it at the end of a green line."
+- "Task: place-box-in-pallet \n Description: Place three boxes of different colors\
+  \ (red, blue, and green) into a pallet. \n    The red box should be at the bottom,\
+  \ followed by the blue box in the middle, \n    and finally the green box at the\
+  \ top."
+- "Task: place-red-in-green \n Description: pick up the red blocks and place them\
+  \ into the green bowls amidst other objects."
+- "Task: color-coordinated-ball-placement \n Description: Pick up each ball and place\
+  \ it inside the box of the same color, while avoiding collision with other objects."
+- "Task: color-coordinated-block-in-container-placement \n Description: Pick up each\
+  \ block and accurately place it inside the container of the same color in a specific\
+  \ sequence - red first, then blue, followed by green, and finally yellow."
+- "Task: color-coordinated-corner-placement \n Description: Pick up each cylinder\
+  \ and place it into the corner of the same color in a specific sequence."
+- "Task: color-sequenced-sphere-placement \n Description: Pick up spheres of different\
+  \ colors and place them in the center of the square of the same color in a specific\
+  \ sequence."
+- "Task: cylinder-balancing-and-placement \n Description: Pick up each cylinder and\
+  \ balance it on its end at the center of the corresponding colored zone."
+- "Task: cylinder-line-placement \n Description: Place cylinders of different colors\
+  \ on a line in a specific color order."
+- "Task: place-ball-in-elevated-bowl \n Description: Pick up a red ball and carefully\
+  \ place it into a bowl, which is positioned on a raised platform that is surrounded\
+  \ by small blocks."
+- "Task: place-blue-on-line-ends \n Description: Pick up each blue box and accurately\
+  \ place it at the end of a green line."
+- "Task: place-box-in-pallet \n Description: Place three boxes of different colors\
+  \ (red, blue, and green) into a pallet. \n    The red box should be at the bottom,\
+  \ followed by the blue box in the middle, \n    and finally the green box at the\
+  \ top."
+stack:
+- "Task: code-stack-wall \n Description: Arrange a cylinder in a zone marked by a\
+  \ green box on the tabletop."
+- "Task: color-coordinated-ball-stacking \n Description: Stack balls on top of the\
+  \ corresponding colored containers in a specific color sequence."
+- "Task: color-coordinated-cylinder-stacking \n Description: Stack cylinders on a\
+  \ pallet in a specific color sequence."
+- "Task: color-coordinated-cylinder-stand-stack \n Description: Arrange three cylinders\
+  \ of different colors (red, blue, green) on three stands of corresponding colors."
+- "Task: color-coordinated-zone-stacking \n Description: Pick up blocks of different\
+  \ colors and stack them in zones to form a pyramid."
+- "Task: color-corresponding-ball-block-stack \n Description: Arrange five colored\
+  \ balls (red, blue, green, yellow, orange) and five matching colored blocks on the\
+  \ tabletop, then stack the blocks in a tower on the pallet, followed by placing\
+  \ the corresponding colored ball on top of each block, the sequence from bottom\
+  \ to top should be red, blue, green, yellow, and orange."
+- "Task: color-sorted-container-stack \n Description: Stack four differently colored\
+  \ blocks (red, blue, green, yellow) inside a container."
+- "Task: cylinder-ring-stack \n Description: Pick up each block and stack it on top\
+  \ of the corresponding colored cylinder. \n    Each cylinder and block pair should\
+  \ be stacked inside a differently colored container."
+- "Task: rainbow-stack \n Description: Pick up blocks of seven different colors and\
+  \ stack them on the stand in the order of the rainbow (red, orange, yellow, green,\
+  \ blue, indigo, violet) from bottom to top."
+- "Task: sequential-insertion-and-stacking \n Description: Pick up and insert each\
+  \ ell block into the corresponding colored fixture in the sequence of red, blue,\
+  \ and green. After successful insertion, pick up the three blocks again from the\
+  \ fixtures and stack them in a corner of the tabletop in the same color sequence\
+  \ - red at the bottom, blue in the middle, and green on top."
+- "Task: sort-and-stack-clr-blocks \n Description: Pick up four blocks of different\
+  \ colors (red, blue, green, yellow) and place them into separate corners of a pallet.\
+  \ After sorting, stack them in a specific sequence on top of the pallet. The bottom\
+  \ of the stack should start with a green block followed by a blue, then red, and\
+  \ finally a yellow block at the top."
+- "Task: stack-blocks-in-container \n Description: Pick up five blocks of different\
+  \ colors (red, blue, green, yellow, and orange) \n    and stack them in a container\
+  \ in a specific sequence. \n    The bottom of the stack should start with a red\
+  \ block followed by a blue, \n    green, yellow and finally an orange block at the\
+  \ top."
+- "Task: stack-boxes-in-pallet \n Description: Stack boxes in a pallet in a specific\
+  \ color sequence."
+- "Task: stack-color-coordinated-blocks \n Description: Pick up six blocks of different\
+  \ colors (red, blue, green, yellow, orange, and purple) \n    and stack them on\
+  \ a pallet in two separate stacks. The first stack should be red at the bottom,\
+  \ \n    blue in the middle, and green at top. The second stack should be yellow\
+  \ at the bottom, \n    orange in the middle, and purple at the top."
+- "Task: stack-cylinder-on-bowl \n Description: Stack cylinders of matching colors\
+  \ on top of bowls in a specific sequence."
+- "Task: stack-three-layer-red-wall \n Description: Build a wall by stacking blocks.\
+  \ The wall should consist of three layers with each layer having three red blocks\
+  \ aligned in a straight line."
+- "Task: stack-block-pyramid \n Description: Build a pyramid of colored blocks in\
+  \ a color sequence"
+- "Task: stack-block-pyramid-seq \n Description: None"
+- "Task: stack-block-pyramid-seq-seen-colors \n Description: None"
+- "Task: stack-block-pyramid-seq-unseen-colors \n Description: None"
+- "Task: stack-block-pyramid-seq-full \n Description: None"
+- "Task: code-stack-wall \n Description: Arrange a cylinder in a zone marked by a\
+  \ green box on the tabletop."
+- "Task: color-coordinated-ball-stacking \n Description: Stack balls on top of the\
+  \ corresponding colored containers in a specific color sequence."
+- "Task: color-coordinated-cylinder-stacking \n Description: Stack cylinders on a\
+  \ pallet in a specific color sequence."
+- "Task: color-coordinated-cylinder-stand-stack \n Description: Arrange three cylinders\
+  \ of different colors (red, blue, green) on three stands of corresponding colors."
+- "Task: color-coordinated-zone-stacking \n Description: Pick up blocks of different\
+  \ colors and stack them in zones to form a pyramid."
+- "Task: color-corresponding-ball-block-stack \n Description: Arrange five colored\
+  \ balls (red, blue, green, yellow, orange) and five matching colored blocks on the\
+  \ tabletop, then stack the blocks in a tower on the pallet, followed by placing\
+  \ the corresponding colored ball on top of each block, the sequence from bottom\
+  \ to top should be red, blue, green, yellow, and orange."
+- "Task: color-sorted-container-stack \n Description: Stack four differently colored\
+  \ blocks (red, blue, green, yellow) inside a container."
+- "Task: cylinder-ring-stack \n Description: Pick up each block and stack it on top\
+  \ of the corresponding colored cylinder. \n    Each cylinder and block pair should\
+  \ be stacked inside a differently colored container."
+- "Task: rainbow-stack \n Description: Pick up blocks of seven different colors and\
+  \ stack them on the stand in the order of the rainbow (red, orange, yellow, green,\
+  \ blue, indigo, violet) from bottom to top."
+- "Task: sequential-insertion-and-stacking \n Description: Pick up and insert each\
+  \ ell block into the corresponding colored fixture in the sequence of red, blue,\
+  \ and green. After successful insertion, pick up the three blocks again from the\
+  \ fixtures and stack them in a corner of the tabletop in the same color sequence\
+  \ - red at the bottom, blue in the middle, and green on top."
+- "Task: sort-and-stack-clr-blocks \n Description: Pick up four blocks of different\
+  \ colors (red, blue, green, yellow) and place them into separate corners of a pallet.\
+  \ After sorting, stack them in a specific sequence on top of the pallet. The bottom\
+  \ of the stack should start with a green block followed by a blue, then red, and\
+  \ finally a yellow block at the top."
+- "Task: stack-blocks-in-container \n Description: Pick up five blocks of different\
+  \ colors (red, blue, green, yellow, and orange) \n    and stack them in a container\
+  \ in a specific sequence. \n    The bottom of the stack should start with a red\
+  \ block followed by a blue, \n    green, yellow and finally an orange block at the\
+  \ top."
+- "Task: stack-boxes-in-pallet \n Description: Stack boxes in a pallet in a specific\
+  \ color sequence."
+- "Task: stack-color-coordinated-blocks \n Description: Pick up six blocks of different\
+  \ colors (red, blue, green, yellow, orange, and purple) \n    and stack them on\
+  \ a pallet in two separate stacks. The first stack should be red at the bottom,\
+  \ \n    blue in the middle, and green at top. The second stack should be yellow\
+  \ at the bottom, \n    orange in the middle, and purple at the top."
+- "Task: stack-cylinder-on-bowl \n Description: Stack cylinders of matching colors\
+  \ on top of bowls in a specific sequence."
+- "Task: stack-three-layer-red-wall \n Description: Build a wall by stacking blocks.\
+  \ The wall should consist of three layers with each layer having three red blocks\
+  \ aligned in a straight line."
