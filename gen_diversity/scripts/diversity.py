@@ -7,15 +7,15 @@ import matplotlib.pyplot as plt
 import openai
 import requests
 import os
+import argparse
 
 from sentence_transformers import SentenceTransformer, util
 from collections import OrderedDict
 
 FILE_PATH = osp.dirname(__file__)
 
+
 def sentence_tf(descs, model_name = "all-mpnet-base-v2"):
-    model_name = "all-MiniLM-L6-v2"
-    # model_name = "all-mpnet-base-v2"
     cache_folder = ".cache"
 
     model = SentenceTransformer(model_name, cache_folder=cache_folder)
@@ -29,14 +29,16 @@ def sentence_tf(descs, model_name = "all-mpnet-base-v2"):
     print(diversity)
     return diversity
 
-def gpt_or_lamma_diversity(descs):
-    ...
 
 
 if __name__ == "__main__":
-    
-    project = "gensim"
-    group = "pile"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-p', '--project', type=str, default="gensim")
+    parser.add_argument('-g', '--group', type=str, default="all")
+    args = parser.parse_args()
+
+    project = args.project
+    group = args.group
 
     if project == "bbsea":
         descs = yaml.safe_load(open(f"texts/bbsea/{group}.yaml"))
@@ -46,8 +48,13 @@ if __name__ == "__main__":
         descs = list(descs.values())
     elif project == "gensim":
         descs = yaml.safe_load(open(f"texts/gensim_descs.yaml"))
-        descs = list(descs[group])
+        if group == "all": # combine all lists
+            descs = sum(descs.values(), [])
+        else:
+            descs = list(descs[group])
     else:
         raise ValueError(f"Unknown project {project}")
+    
+    print("Total number of descriptions:", len(descs))
     diversity = sentence_tf(descs)
 
