@@ -47,8 +47,8 @@ def find_ckpt_path(solution_path):
     with open(action_spaces, 'r') as f:
         action_spaces = [line.strip() for line in f.readlines()]
 
-    print("all substeps:\n {}".format("".join(substeps)))
-    print("all substep types:\n {}".format("".join(substep_types)))
+    # print("all substeps:\n {}".format("".join(substeps)))
+    # print("all substep types:\n {}".format("".join(substep_types)))
 
     policy_path = os.path.join(solution_path, "RL_sac")
     if not os.path.exists(policy_path):
@@ -60,26 +60,36 @@ def find_ckpt_path(solution_path):
         ckpt_path = None
         last_restore_state_file = None
     else:
-        latest_time_str = checkpoints[-1]
-        for i, substep in enumerate(substeps):
-            if substep_types[i] == "reward":
-                step_name = substep.strip().replace(" ", "_")
-                ckpt_path = os.path.join(policy_path, latest_time_str, step_name, "best_model")
-                if not os.path.exists(ckpt_path):
-                    return None, None, None, None
-                # find the latest checkpoint
-                latest = sorted(os.listdir(ckpt_path))[-1]
-                num = int(latest.split("_")[-1])
-                ckpt_path = os.path.join(ckpt_path, latest, f"checkpoint-{num}")
-                assert os.path.exists(ckpt_path), f"ckpt_path {ckpt_path} does not exist."
-                
-                prev_step_name = substeps[i-1].strip().replace(" ", "_")
-                state_dir = os.path.join(solution_path, "primitive_states", latest_time_str, prev_step_name)
-                state_paths = [path for path in os.listdir(state_dir) if path.endswith(".pkl")]
-                last_restore_state_file = os.path.join(state_dir, sorted(state_paths, key=lambda name: int(name[:-4].split("_")[-1]))[-1])
-                
-                action_space = action_spaces[i]
+        found_ckpt = False
+        for time_str in checkpoints:
+            for i, substep in enumerate(substeps):
+                if substep_types[i] == "reward":
+                    step_name = substep.strip().replace(" ", "_")
+                    ckpt_path = os.path.join(policy_path, time_str, step_name, "best_model")
+                    print("ckpt_path: ", ckpt_path)
+                    if not os.path.exists(ckpt_path):
+                        continue
+                    # find the latest checkpoint
+                    latest = sorted(os.listdir(ckpt_path))[-1]
+                    num = int(latest.split("_")[-1])
+                    ckpt_path = os.path.join(ckpt_path, latest, f"checkpoint-{num}")
+                    assert os.path.exists(ckpt_path), f"ckpt_path {ckpt_path} does not exist."
+                    
+                    prev_step_name = substeps[i-1].strip().replace(" ", "_")
+                    state_dir = os.path.join(solution_path, "primitive_states", time_str, prev_step_name)
+                    state_paths = [path for path in os.listdir(state_dir) if path.endswith(".pkl")]
+                    last_restore_state_file = os.path.join(state_dir, sorted(state_paths, key=lambda name: int(name[:-4].split("_")[-1]))[-1])
+                    
+                    action_space = action_spaces[i]
+                    found_ckpt = True
+                    break
+            if found_ckpt:
                 break
+    if not found_ckpt:
+        ckpt_path = None
+        step_name = None
+        action_space = None
+        last_restore_state_file = None
     return ckpt_path, step_name, action_space, last_restore_state_file
 
 
@@ -124,6 +134,11 @@ def execute(
     ckpt_path, step_name, action_space, last_restore_state_file = find_ckpt_path(solution_path)
     print("ckpt_path: ", ckpt_path, "last_restore_state_file: ", last_restore_state_file)
     # input("Press Enter to continue...")
+    print("Start collecting data for task: ", whole_task_name)
+    print("There are {}/40 episodes.".format(n_episodes))
+    if n_episodes >= 40:
+        print("Already collected 40 episodes for this task. Skip.")
+        return
 
     task_name = step_name
     env_config = {
@@ -144,8 +159,7 @@ def execute(
     policy, _ = load_policy("sac", env_name=task_name, policy_path=ckpt_path, env_config=env_config, seed=2)
     
     env = make_env(env_config)
-
-    for ep_id in range(n_episodes, n_episodes + 5):
+    for ep_id in range(n_episodes, 40):
         obs = env.reset()
         done = False
         reward_total = 0
@@ -217,9 +231,9 @@ def check_tasks(root_dir):
     yaml.dump(task_config_paths, open("task_config_paths.yaml", "w"))
     return task_config_paths
         
-
+import random
 task_config_paths = check_tasks(os.path.join(ROBOGEN_PATH, "example_tasks"))
-
+task_config_paths = dict(sorted(task_config_paths.items(), key=lambda item: random.random()))
 
 if __name__ == "__main__":
     import argparse
